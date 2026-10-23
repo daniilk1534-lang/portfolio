@@ -1,234 +1,769 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Сайт-визитка веб-разработчика — навыки, опыт и контакты.">
-  <title>Даниил Колмыченко — Frontend-разработчик</title>
-  <style>
-    :root {
-      --bg: #080f1b;
-      --panel: #0b1422;
-      --panel-soft: #101d2f;
-      --line: #23334a;
-      --text: #f4f7fc;
-      --muted: #b2c0d7;
-      --subtle: #8198ba;
-      --blue: #4387ff;
-      --blue-light: #70adff;
-      --green: #58d6a1;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      color: var(--text);
-      background: radial-gradient(ellipse at 50% 0%, #14243a 0%, var(--bg) 54%);
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      line-height: 1.6;
-    }
-    a { color: inherit; text-decoration: none; }
-    a:focus-visible, button:focus-visible { outline: 3px solid var(--blue-light); outline-offset: 4px; }
-    .wrap { width: min(1180px, calc(100% - 36px)); margin: 42px auto; }
-    .profile {
-      display: grid;
-      grid-template-columns: minmax(230px, .88fr) minmax(320px, 1.2fr) minmax(245px, .82fr);
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      background: rgba(8, 16, 28, .88);
-      box-shadow: 0 24px 80px rgba(0,0,0,.25);
-    }
-    .column { padding: 30px; min-width: 0; }
-    .column + .column { border-left: 1px solid var(--line); }
-    .identity { background: linear-gradient(160deg, rgba(18,32,51,.58), rgba(8,16,28,.3)); }
-    .portrait {
-      width: 100%; aspect-ratio: 1 / 1; display: grid; place-items: center;
-      border-radius: 15px; border: 1px solid #2a3e59;
-      background: linear-gradient(135deg, #1c3554, #0b1422 70%);
-      color: var(--blue-light); font-size: 64px; font-weight: 800; letter-spacing: -5px;
-      overflow: hidden;
-    }
-    .portrait span { border: 2px solid #4e8fff; border-radius: 18px; padding: 16px 23px; }
-    h1 { margin: 20px 0 2px; font-size: clamp(27px, 3vw, 35px); line-height: 1.2; letter-spacing: -.8px; }
-    .role { margin: 7px 0 18px; color: var(--blue-light); font-size: 18px; font-weight: 650; }
-    .intro { color: var(--muted); margin: 0 0 24px; }
-    .meta { list-style: none; margin: 26px 0; padding: 0; display: grid; gap: 12px; color: var(--muted); font-size: 14px; }
-    .meta li { display: flex; gap: 10px; align-items: flex-start; }
-    .meta b { color: var(--blue-light); font-weight: 700; min-width: 20px; }
-    .contact-button {
-      display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%;
-      padding: 13px 18px; border-radius: 11px; background: var(--blue); color: white;
-      font-weight: 700; border: 1px solid #6099ff; transition: transform .2s, background .2s;
-    }
-    .contact-button:hover { background: #2f75ef; transform: translateY(-2px); }
-    h2 { margin: 0 0 14px; font-size: 23px; letter-spacing: -.3px; }
-    h3 { margin: 0; font-size: 16px; }
-    .about { color: var(--muted); margin: 0 0 28px; }
-    .checks { list-style: none; padding: 0; margin: 0; display: grid; gap: 11px; color: var(--muted); }
-    .checks li { display: flex; gap: 10px; }
-    .checks li::before { content: "✓"; color: var(--blue-light); font-weight: 900; }
-    .section-divider { height: 1px; background: var(--line); margin: 28px 0 24px; }
-    .section-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
-    .section-heading .symbol { color: var(--blue-light); font-size: 22px; }
-    .timeline { border-left: 2px solid #2a4263; margin-left: 10px; padding-left: 22px; display: grid; gap: 22px; }
-    .job p { margin: 5px 0 0; color: var(--muted); font-size: 14px; }
-    .job .company { color: var(--subtle); }
-    .tech-group { margin: 18px 0 23px; }
-    .tech-group h3 { font-size: 14px; font-weight: 650; margin-bottom: 10px; color: var(--muted); }
-    .tech-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 8px; }
-    .tech { text-align: center; color: var(--muted); font-size: 12px; }
-    .tech-icon {
-      width: 54px; height: 54px; margin: 0 auto 6px; display: grid; place-items: center;
-      border: 1px solid #2b3e57; border-radius: 13px; background: linear-gradient(145deg, #14243a, #0a1321);
-      color: var(--blue-light); font-size: 17px; font-weight: 800; box-shadow: inset 0 1px rgba(255,255,255,.03);
-    }
-    .tech-icon.react { color: #54d8ff; } .tech-icon.ts { color: #fff; background: #1478c9; border-color: #1478c9; }
-    .tech-icon.js { color: #171717; background: #f7d43b; border-color: #f7d43b; }
-    .tech-icon.html { color: #ff7148; } .tech-icon.css { color: #57a8ff; }
-    .tech-icon.node { color: #8edc5c; } .tech-icon.db { color: #8fc8ff; }
-    .contact-list { display: grid; gap: 12px; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
-    .contact-list a:hover { color: var(--blue-light); }
-    .contact-item { display: flex; gap: 10px; align-items: center; }
-    .contact-item span { color: var(--blue-light); font-size: 17px; width: 20px; text-align: center; }
-    .quote { color: var(--subtle); font-size: 14px; text-align: center; margin: 25px 0 0; }
-    footer { color: #7287a5; text-align: center; font-size: 12px; padding: 22px 0 4px; }
-    @media (max-width: 980px) {
-      .profile { grid-template-columns: minmax(220px, .8fr) minmax(0, 1.2fr); }
-      .tech-column { grid-column: 1 / -1; border-left: 0 !important; border-top: 1px solid var(--line); }
-      .tech-column-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-      .tech-column .section-divider { display: none; }
-      .tech-column .tech-grid { max-width: 320px; }
-    }
-    @media (max-width: 650px) {
-      .wrap { width: min(100% - 20px, 520px); margin: 10px auto; }
-      .profile { grid-template-columns: 1fr; border-radius: 16px; }
-      .column { padding: 22px; }
-      .column + .column { border-left: 0; border-top: 1px solid var(--line); }
-      .portrait { max-width: 280px; }
-      .tech-column { grid-column: auto; }
-      .tech-column-inner { display: block; }
-      .tech-column .section-divider { display: block; }
-      h2 { font-size: 21px; }
-    }
-    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
-  </style>
-</head>
-<body>
-  <main class="wrap">
-    <article class="profile">
-      <section class="column identity" aria-labelledby="name">
-        <div class="portrait" role="img" aria-label="Место для фотографии программиста"><span>AI</span></div>
-        <h1 id="name">Даниил Колмыченко</h1>
-        <p class="role">Frontend-разработчик</p>
-        <p class="intro">Пишу чистый код и создаю удобные, современные веб-приложения.</p>
-        <ul class="meta">
-          <li><b>⌖</b><span>Открыт к проектам и работе</span></li>
-          <li><b>▣</b><span>Сайты, боты и веб-проекты</span></li>
-          <li><b>◷</b><span>Уровень: начинающий</span></li>
-        </ul>
-        <a class="contact-button" href="mailto:daniil@example.com"><span>➤</span> Обсудить проект</a>
-      </section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Портфолио Даниила Колмыченко: веб-разработка, учебные проекты и контакты."
+    />
+    <title>Даниил Колмыченко — Frontend-разработчик</title>
+    <style>
+      :root {
+        --bg: #080f1b;
+        --panel: #0b1422;
+        --panel-soft: #101d2f;
+        --line: #23334a;
+        --text: #f4f7fc;
+        --muted: #b2c0d7;
+        --subtle: #8198ba;
+        --blue: #4387ff;
+        --blue-light: #70adff;
+        --green: #58d6a1;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        color: var(--text);
+        background: radial-gradient(ellipse at 50% 0%, #14243a 0%, var(--bg) 54%);
+        font-family:
+          Inter,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Arial,
+          sans-serif;
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      a:focus-visible,
+      button:focus-visible {
+        outline: 3px solid var(--blue-light);
+        outline-offset: 4px;
+      }
+      .wrap {
+        width: min(1180px, calc(100% - 36px));
+        margin: 42px auto;
+      }
+      .profile {
+        display: grid;
+        grid-template-columns: minmax(230px, 0.88fr) minmax(320px, 1.2fr) minmax(245px, 0.82fr);
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: rgba(8, 16, 28, 0.88);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.25);
+      }
+      .column {
+        padding: 30px;
+        min-width: 0;
+      }
+      .column + .column {
+        border-left: 1px solid var(--line);
+      }
+      .identity {
+        background: linear-gradient(160deg, rgba(18, 32, 51, 0.58), rgba(8, 16, 28, 0.3));
+      }
+      .portrait {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        display: grid;
+        place-items: center;
+        border-radius: 15px;
+        border: 1px solid #2a3e59;
+        background: linear-gradient(135deg, #1c3554, #0b1422 70%);
+        color: var(--blue-light);
+        font-size: 64px;
+        font-weight: 800;
+        letter-spacing: -5px;
+        overflow: hidden;
+      }
+      .portrait span {
+        border: 2px solid #4e8fff;
+        border-radius: 18px;
+        padding: 16px 23px;
+      }
+      h1 {
+        margin: 20px 0 2px;
+        font-size: clamp(27px, 3vw, 35px);
+        line-height: 1.2;
+        letter-spacing: -0.8px;
+      }
+      .role {
+        margin: 7px 0 18px;
+        color: var(--blue-light);
+        font-size: 18px;
+        font-weight: 650;
+      }
+      .intro {
+        color: var(--muted);
+        margin: 0 0 24px;
+      }
+      .meta {
+        list-style: none;
+        margin: 26px 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .meta li {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .meta b {
+        color: var(--blue-light);
+        font-weight: 700;
+        min-width: 20px;
+      }
+      .contact-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 13px 18px;
+        border-radius: 11px;
+        background: var(--blue);
+        color: white;
+        font-weight: 700;
+        border: 1px solid #6099ff;
+        transition:
+          transform 0.2s,
+          background 0.2s;
+      }
+      .contact-button:hover {
+        background: #2f75ef;
+        transform: translateY(-2px);
+      }
+      h2 {
+        margin: 0 0 14px;
+        font-size: 23px;
+        letter-spacing: -0.3px;
+      }
+      h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+      .about {
+        color: var(--muted);
+        margin: 0 0 28px;
+      }
+      .checks {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 11px;
+        color: var(--muted);
+      }
+      .checks li {
+        display: flex;
+        gap: 10px;
+      }
+      .checks li::before {
+        content: "✓";
+        color: var(--blue-light);
+        font-weight: 900;
+      }
+      .section-divider {
+        height: 1px;
+        background: var(--line);
+        margin: 28px 0 24px;
+      }
+      .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .section-heading .symbol {
+        color: var(--blue-light);
+        font-size: 22px;
+      }
+      .timeline {
+        border-left: 2px solid #2a4263;
+        margin-left: 10px;
+        padding-left: 22px;
+        display: grid;
+        gap: 22px;
+      }
+      .job p {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .job .company {
+        color: var(--subtle);
+      }
+      .tech-group {
+        margin: 18px 0 23px;
+      }
+      .tech-group h3 {
+        font-size: 14px;
+        font-weight: 650;
+        margin-bottom: 10px;
+        color: var(--muted);
+      }
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px 8px;
+      }
+      .tech {
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .tech-icon {
+        width: 54px;
+        height: 54px;
+        margin: 0 auto 6px;
+        display: grid;
+        place-items: center;
+        border: 1px solid #2b3e57;
+        border-radius: 13px;
+        background: linear-gradient(145deg, #14243a, #0a1321);
+        color: var(--blue-light);
+        font-size: 17px;
+        font-weight: 800;
+        box-shadow: inset 0 1px rgba(255, 255, 255, 0.03);
+      }
+      .tech-icon.react {
+        color: #54d8ff;
+      }
+      .tech-icon.ts {
+        color: #fff;
+        background: #1478c9;
+        border-color: #1478c9;
+      }
+      .tech-icon.js {
+        color: #171717;
+        background: #f7d43b;
+        border-color: #f7d43b;
+      }
+      .tech-icon.html {
+        color: #ff7148;
+      }
+      .tech-icon.css {
+        color: #57a8ff;
+      }
+      .tech-icon.node {
+        color: #8edc5c;
+      }
+      .tech-icon.db {
+        color: #8fc8ff;
+      }
+      .contact-list {
+        display: grid;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+      .contact-list a:hover {
+        color: var(--blue-light);
+      }
+      .contact-item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .contact-item span {
+        color: var(--blue-light);
+        font-size: 17px;
+        width: 20px;
+        text-align: center;
+      }
+      .quote {
+        color: var(--subtle);
+        font-size: 14px;
+        text-align: center;
+        margin: 25px 0 0;
+      }
+      footer {
+        color: #7287a5;
+        text-align: center;
+        font-size: 12px;
+        padding: 22px 0 4px;
+      }
+      @media (max-width: 980px) {
+        .profile {
+          grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+        }
+        .tech-column {
+          grid-column: 1 / -1;
+          border-left: 0 !important;
+          border-top: 1px solid var(--line);
+        }
+        .tech-column-inner {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 24px;
+        }
+        .tech-column .section-divider {
+          display: none;
+        }
+        .tech-column .tech-grid {
+          max-width: 320px;
+        }
+      }
+      @media (max-width: 650px) {
+        .wrap {
+          width: min(100% - 20px, 520px);
+          margin: 10px auto;
+        }
+        .profile {
+          grid-template-columns: 1fr;
+          border-radius: 16px;
+        }
+        .column {
+          padding: 22px;
+        }
+        .column + .column {
+          border-left: 0;
+          border-top: 1px solid var(--line);
+        }
+        .portrait {
+          max-width: 280px;
+        }
+        .tech-column {
+          grid-column: auto;
+        }
+        .tech-column-inner {
+          display: block;
+        }
+        .tech-column .section-divider {
+          display: block;
+        }
+        h2 {
+          font-size: 21px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          transition: none !important;
+        }
+      }
 
-      <section class="column" aria-label="О разработчике и опыте">
-        <h2>Обо мне</h2>
-        <p class="about">Я начинающий веб-разработчик: создаю сайты на HTML и CSS, добавляю интерактивность с помощью JavaScript и изучаю Python. Развиваю портфолио, учусь создавать Telegram-ботов и открыт к небольшим фриланс-проектам с понятными задачами.</p>
-        <h2>Ключевые навыки</h2>
-        <ul class="checks">
-          <li>HTML и CSS: структура и оформление сайтов</li>
-          <li>Адаптивная вёрстка для телефонов и компьютеров</li>
-          <li>JavaScript: базовая интерактивность</li>
-          <li>Аккуратный код и внимание к деталям</li>
-          <li>Git и GitHub: история изменений и репозитории</li>
-        </ul>
-        <div class="section-divider"></div>
-        <div class="section-heading"><span class="symbol">▣</span><h2>Проекты для портфолио</h2></div>
-        <div class="timeline">
-          <div class="job">
-            <h3>Личная сайт-визитка</h3>
-            <p class="company">HTML · CSS · адаптивный дизайн</p>
-            <p>Портфолио с информацией обо мне, навыками и контактами. Следующий шаг — добавить реальные ссылки и опубликовать сайт.</p>
+      /* Обновлённый визуальный стиль портфолио */
+      :root {
+        --bg: #070b14;
+        --panel: #0d1424;
+        --panel-soft: #121d31;
+        --line: rgba(148, 171, 210, 0.18);
+        --text: #f4f7ff;
+        --muted: #b7c3d9;
+        --subtle: #8799b8;
+        --blue: #6d7cff;
+        --blue-light: #a4b0ff;
+        --green: #67e8bd;
+      }
+      body {
+        background:
+          radial-gradient(ellipse at 12% 5%, rgba(74, 91, 210, 0.2), transparent 35%),
+          radial-gradient(ellipse at 90% 18%, rgba(28, 174, 194, 0.1), transparent 30%), var(--bg);
+      }
+      .wrap {
+        width: min(1240px, calc(100% - 40px));
+        margin: 54px auto;
+      }
+      .profile {
+        border-color: rgba(154, 171, 255, 0.24);
+        border-radius: 28px;
+        background: rgba(10, 15, 29, 0.91);
+        box-shadow:
+          0 30px 100px rgba(0, 0, 0, 0.42),
+          0 0 70px rgba(90, 104, 255, 0.07);
+        backdrop-filter: blur(14px);
+      }
+      .column {
+        padding: 34px;
+      }
+      .identity {
+        background: linear-gradient(155deg, rgba(89, 101, 220, 0.13), rgba(8, 14, 27, 0.1) 65%);
+      }
+      .portrait {
+        position: relative;
+        border-radius: 20px;
+        border-color: rgba(164, 176, 255, 0.35);
+        background:
+          radial-gradient(circle at 50% 25%, rgba(130, 146, 255, 0.3), transparent 40%),
+          linear-gradient(145deg, #1b2b4b, #0c1324 75%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+      .portrait span {
+        border: 1px solid rgba(184, 192, 255, 0.75);
+        border-radius: 22px;
+        padding: 17px 26px;
+        background: rgba(12, 18, 38, 0.35);
+        box-shadow: 0 0 40px rgba(109, 124, 255, 0.18);
+        letter-spacing: -3px;
+      }
+      h1 {
+        font-size: clamp(29px, 3.2vw, 39px);
+        letter-spacing: -1.3px;
+      }
+      .role {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 16px;
+      }
+      .role::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 14px rgba(103, 232, 189, 0.7);
+      }
+      .intro {
+        font-size: 15px;
+      }
+      .meta {
+        gap: 14px;
+      }
+      .meta li {
+        align-items: center;
+      }
+      .meta b,
+      .section-heading .symbol {
+        color: var(--blue-light);
+      }
+      .contact-button {
+        border: 1px solid rgba(193, 198, 255, 0.38);
+        border-radius: 14px;
+        background: linear-gradient(135deg, #6877ff, #5861d8);
+        box-shadow: 0 10px 28px rgba(88, 97, 216, 0.22);
+      }
+      .contact-button:hover {
+        background: linear-gradient(135deg, #7d89ff, #6570ed);
+      }
+      h2 {
+        font-size: 22px;
+        letter-spacing: -0.55px;
+      }
+      .about,
+      .checks,
+      .job p {
+        line-height: 1.75;
+      }
+      .checks {
+        gap: 13px;
+      }
+      .checks li::before {
+        content: "↗";
+        color: var(--green);
+      }
+      .section-divider {
+        background: linear-gradient(90deg, var(--line), rgba(148, 171, 210, 0.04));
+        margin: 30px 0 26px;
+      }
+      .timeline {
+        border-left-color: rgba(129, 143, 255, 0.38);
+        gap: 24px;
+      }
+      .job {
+        position: relative;
+      }
+      .job::before {
+        content: "";
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        left: -28px;
+        top: 7px;
+        border-radius: 50%;
+        background: var(--blue-light);
+        box-shadow: 0 0 0 4px rgba(109, 124, 255, 0.12);
+      }
+      .job h3 {
+        font-size: 15px;
+      }
+      .job .company {
+        color: #a7b3ff;
+        font-size: 12px;
+        letter-spacing: 0.2px;
+      }
+      .tech-icon {
+        border-color: rgba(148, 171, 210, 0.22);
+        border-radius: 15px;
+        background: linear-gradient(145deg, #17233c, #0c1322);
+        box-shadow:
+          inset 0 1px rgba(255, 255, 255, 0.05),
+          0 8px 18px rgba(0, 0, 0, 0.1);
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .tech:hover .tech-icon {
+        transform: translateY(-3px);
+        border-color: rgba(164, 176, 255, 0.65);
+      }
+      .contact-list {
+        gap: 14px;
+      }
+      .contact-item {
+        padding: 10px 11px;
+        border: 1px solid transparent;
+        border-radius: 12px;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      .contact-item:hover {
+        background: rgba(109, 124, 255, 0.08);
+        border-color: rgba(164, 176, 255, 0.2);
+      }
+      footer {
+        padding-top: 28px;
+        color: #7f8eaa;
+      }
+      @media (max-width: 980px) {
+        .wrap {
+          margin: 28px auto;
+        }
+        .column {
+          padding: 28px;
+        }
+      }
+      @media (max-width: 650px) {
+        .wrap {
+          width: calc(100% - 20px);
+          margin: 10px auto;
+        }
+        .profile {
+          border-radius: 20px;
+        }
+        .column {
+          padding: 23px;
+        }
+        .portrait {
+          max-width: 220px;
+        }
+        .tech-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <article class="profile">
+        <section class="column identity" aria-labelledby="name">
+          <div class="portrait" role="img" aria-label="Место для фотографии программиста">
+            <span>AI</span>
           </div>
-          <div class="job">
-            <h3>Лендинг для вымышленного бизнеса</h3>
-            <p class="company">HTML · CSS · JavaScript</p>
-            <p>Практический проект: первый экран, описание услуг, блок преимуществ и форма заявки с проверкой полей на JavaScript.</p>
-          </div>
-          <div class="job">
-            <h3>Небольшой Python-проект</h3>
-            <p class="company">Python · GitHub</p>
-            <p>Например, консольный список задач или простой трекер расходов. После завершения добавлю описание и исходный код в GitHub.</p>
-          </div>
-          <div class="job">
-            <h3>Telegram-бот — в планах</h3>
-            <p class="company">Python · Telegram Bot API</p>
-            <p>Учебный бот для ответов на команды или приёма заявок. Пока это идея для будущего проекта, а не готовая работа.</p>
-          </div>
-        </div>
-        <div class="section-divider"></div>
-        <div class="section-heading"><span class="symbol">▣</span><h2>Мой путь в разработке</h2></div>
-        <div class="timeline">
-          <div class="job">
-            <h3>Учебные и личные проекты</h3>
-            <p class="company">Практика · Сейчас</p>
-            <p>Разрабатываю сайты и интерфейсы, уделяю внимание адаптивности, удобству использования и аккуратной вёрстке.</p>
-          </div>
-          <div class="job">
-            <h3>Следующий этап</h3>
-            <p class="company">В процессе обучения</p>
-            <p>Изучаю Python и основы создания Telegram-ботов. Здесь будут появляться новые работы с описанием задачи и ссылками на демо.</p>
-          </div>
-        </div>
-      </section>
+          <h1 id="name">Даниил Колмыченко</h1>
+          <p class="role">Frontend-разработчик</p>
+          <p class="intro">Пишу чистый код и создаю удобные, современные веб-приложения.</p>
+          <ul class="meta">
+            <li><b>⌖</b><span>Открыт к проектам и работе</span></li>
+            <li><b>▣</b><span>Сайты, боты и веб-проекты</span></li>
+            <li><b>◷</b><span>Уровень: начинающий</span></li>
+          </ul>
+          <a class="contact-button" href="mailto:daniil@example.com"
+            ><span>➤</span> Обсудить проект</a
+          >
+        </section>
 
-      <section class="column tech-column" aria-label="Технологии и контакты">
-        <div class="tech-column-inner">
-          <div>
-            <div class="section-heading"><span class="symbol">‹/›</span><h2>Технологии</h2></div>
-            <div class="tech-group">
-              <h3>Веб-разработка</h3>
-              <div class="tech-grid">
-                <div class="tech"><div class="tech-icon html">5</div>HTML</div>
-                <div class="tech"><div class="tech-icon css">3</div>CSS</div>
-                <div class="tech"><div class="tech-icon js">JS</div>JavaScript</div>
-                <div class="tech"><div class="tech-icon">Git</div>Git</div>
-                <div class="tech"><div class="tech-icon">GH</div>GitHub</div>
-              </div>
+        <section class="column" aria-label="О разработчике и опыте">
+          <h2>Обо мне</h2>
+          <p class="about">
+            Я начинающий веб-разработчик: создаю сайты на HTML и CSS, добавляю интерактивность с
+            помощью JavaScript и изучаю Python. Развиваю портфолио, учусь создавать Telegram-ботов и
+            открыт к небольшим фриланс-проектам с понятными задачами.
+          </p>
+          <h2>Ключевые навыки</h2>
+          <ul class="checks">
+            <li>HTML и CSS: структура и оформление сайтов</li>
+            <li>Адаптивная вёрстка для телефонов и компьютеров</li>
+            <li>JavaScript: базовая интерактивность</li>
+            <li>Аккуратный код и внимание к деталям</li>
+            <li>Git и GitHub: история изменений и репозитории</li>
+          </ul>
+          <div class="section-divider"></div>
+          <div class="section-heading">
+            <span class="symbol">▣</span>
+            <h2>Проекты для портфолио</h2>
+          </div>
+          <div class="timeline">
+            <div class="job">
+              <h3>Личная сайт-визитка</h3>
+              <p class="company">HTML · CSS · адаптивный дизайн</p>
+              <p>
+                Портфолио с информацией обо мне, навыками и контактами. Следующий шаг — добавить
+                реальные ссылки и опубликовать сайт.
+              </p>
             </div>
-            <div class="tech-group">
-              <h3>Изучаю</h3>
-              <div class="tech-grid">
-                <div class="tech"><div class="tech-icon node">Py</div>Python</div>
-                <div class="tech"><div class="tech-icon">TG</div>Telegram</div>
-                <div class="tech"><div class="tech-icon db">Py</div>Python</div>
-              </div>
+            <div class="job">
+              <h3>Лендинг для вымышленного бизнеса</h3>
+              <p class="company">HTML · CSS · JavaScript</p>
+              <p>
+                Практический проект: первый экран, описание услуг, блок преимуществ и форма заявки с
+                проверкой полей на JavaScript.
+              </p>
             </div>
-            <div class="tech-group">
-              <h3>Инструменты</h3>
-              <div class="tech-grid">
-                <div class="tech"><div class="tech-icon">◆</div>Git</div>
-                <div class="tech"><div class="tech-icon">◉</div>Docker</div>
-                <div class="tech"><div class="tech-icon">⌘</div>VS Code</div>
-              </div>
+            <div class="job">
+              <h3>Небольшой Python-проект</h3>
+              <p class="company">Python · GitHub</p>
+              <p>
+                Например, консольный список задач или простой трекер расходов. После завершения
+                добавлю описание и исходный код в GitHub.
+              </p>
+            </div>
+            <div class="job">
+              <h3>Telegram-бот — в планах</h3>
+              <p class="company">Python · Telegram Bot API</p>
+              <p>
+                Учебный бот для ответов на команды или приёма заявок. Пока это идея для будущего
+                проекта, а не готовая работа.
+              </p>
             </div>
           </div>
-          <div>
-            <div class="section-divider"></div>
-            <div class="section-heading"><span class="symbol">↗</span><h2>Контакты</h2></div>
-            <div class="contact-list">
-              <a class="contact-item" href="mailto:daniil@example.com"><span>✉</span>daniil@example.com</a>
-              <a class="contact-item" href="https://github.com/" target="_blank" rel="noreferrer"><span>◉</span>github.com/ваш-ник</a>
-              <a class="contact-item" href="https://linkedin.com/" target="_blank" rel="noreferrer"><span>in</span>linkedin.com/ваш-профиль</a>
-            </div>
-            <p class="quote">Есть идея для небольшого сайта? Давай обсудим её.</p><p class="quote" style="font-size:12px">* Telegram-боты — направление в изучении.</p>
+          <div class="section-divider"></div>
+          <div class="section-heading">
+            <span class="symbol">▣</span>
+            <h2>Мой путь в разработке</h2>
           </div>
-        </div>
-      </section>
-    </article>
-    <footer>© <span id="year"></span> Даниил Колмыченко · Портфолио Frontend-разработчика</footer>
-  </main>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
-</body>
+          <div class="timeline">
+            <div class="job">
+              <h3>Учебные и личные проекты</h3>
+              <p class="company">Практика · Сейчас</p>
+              <p>
+                Разрабатываю сайты и интерфейсы, уделяю внимание адаптивности, удобству
+                использования и аккуратной вёрстке.
+              </p>
+            </div>
+            <div class="job">
+              <h3>Следующий этап</h3>
+              <p class="company">В процессе обучения</p>
+              <p>
+                Изучаю Python и основы создания Telegram-ботов. Здесь будут появляться новые работы
+                с описанием задачи и ссылками на демо.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="column tech-column" aria-label="Технологии и контакты">
+          <div class="tech-column-inner">
+            <div>
+              <div class="section-heading">
+                <span class="symbol">‹/›</span>
+                <h2>Технологии</h2>
+              </div>
+              <div class="tech-group">
+                <h3>Веб-разработка</h3>
+                <div class="tech-grid">
+                  <div class="tech">
+                    <div class="tech-icon html">5</div>
+                    HTML
+                  </div>
+                  <div class="tech">
+                    <div class="tech-icon css">3</div>
+                    CSS
+                  </div>
+                  <div class="tech">
+                    <div class="tech-icon js">JS</div>
+                    JavaScript
+                  </div>
+                  <div class="tech">
+                    <div class="tech-icon">Git</div>
+                    Git
+                  </div>
+                  <div class="tech">
+                    <div class="tech-icon">GH</div>
+                    GitHub
+                  </div>
+                </div>
+              </div>
+              <div class="tech-group">
+                <h3>Изучаю</h3>
+                <div class="tech-grid">
+                  <div class="tech">
+                    <div class="tech-icon node">Py</div>
+                    Python
+                  </div>
+                  <div class="tech">
+                    <div class="tech-icon">TG</div>
+                    Telegram
+                  </div>
+                  <div class="tech">
+                    <div class="tech-icon db">API</div>
+                    API
+                  </div>
+                </div>
+              </div>
+              <div class="tech-group">
+                <h3>Инструменты</h3>
+                <div class="tech-grid">
+                  <div class="tech">
+                    <div class="tech-icon">◆</div>
+                    Git
+                  </div>
+                  <div class="tech">
+                    <div class="tech-icon">◉</div>
+                    Docker
+                  </div>
+                  <div class="tech">
+                    <div class="tech-icon">⌘</div>
+                    VS Code
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="section-divider"></div>
+              <div class="section-heading">
+                <span class="symbol">↗</span>
+                <h2>Контакты</h2>
+              </div>
+              <div class="contact-list">
+                <a class="contact-item" href="mailto:daniil@example.com"
+                  ><span>✉</span>daniil@example.com</a
+                >
+                <a
+                  class="contact-item"
+                  href="https://github.com/daniilk1534-lang"
+                  target="_blank"
+                  rel="noreferrer"
+                  ><span>◉</span>github.com/daniilk1534-lang</a
+                >
+                <a
+                  class="contact-item"
+                  href="https://linkedin.com/"
+                  target="_blank"
+                  rel="noreferrer"
+                  ><span>in</span>linkedin.com/ваш-профиль</a
+                >
+              </div>
+              <p class="quote">Есть идея для небольшого сайта? Давай обсудим её.</p>
+              <p class="quote" style="font-size: 12px">* Telegram-боты — направление в изучении.</p>
+            </div>
+          </div>
+        </section>
+      </article>
+      <footer>© <span id="year"></span> Даниил Колмыченко · Портфолио Frontend-разработчика</footer>
+    </main>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
 </html>
